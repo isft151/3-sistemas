@@ -21,28 +21,59 @@
  *  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 **/
 
+#include "../../include/IPlugin.h"
+#include "../../include/IMessenger.h"
 #include <iostream>
-#include <stdlib.h>
-#include <string>
-#include "include/ComponentFactory.h"
-#include "include/IComponent.h"
-#include "include/IGreeter.h"
 
 using namespace std;
 
-int main()
+class ConsoleMessenger : public IMessenger, public IPlugin
 {
-    IComponent* component = ComponentFactory::createFrom("./lib/libgreeter");
-    if(component->implements("IGreeter"))
-    {
-        IGreeter* greeter = (IGreeter*) component->getInstance();
-        greeter->greet("Hello World!");
-    }
-    else
-    {
-        cout << "Error: The component doesn't implement the selected interface!" << endl;
-        exit(-1);
-    }
-    component->release();
-    return 0;
+    public:
+        ConsoleMessenger();
+        virtual ~ConsoleMessenger();
+        void say(string message);
+
+        bool implements(string interfaceName);
+        void* getInstance();
+        void release();
+
+    private:
+        int m_referenceCounter;
+        bool m_implemented;
+};
+
+ConsoleMessenger::ConsoleMessenger() : m_referenceCounter(0) {}
+
+ConsoleMessenger::~ConsoleMessenger(){}
+
+void ConsoleMessenger::say(string message)
+{
+    cout << "I am the Messenger 02 and the message is: " << message << endl;
+}
+
+bool ConsoleMessenger::implements(string interfaceName)
+{
+    return (interfaceName == "IPlugin" || interfaceName == "IMessenger") ?
+        m_implemented = true
+            : m_implemented = false;
+}
+
+void* ConsoleMessenger::getInstance()
+{
+    if(m_implemented) {  m_referenceCounter++;  return this; }
+    return NULL;
+}
+
+void ConsoleMessenger::release()
+{
+    m_referenceCounter--;
+    if(m_referenceCounter <= 0) delete this;
+}
+
+extern "C" IPlugin* create();
+
+IPlugin* create()
+{
+    return (IPlugin*) new ConsoleMessenger;
 }

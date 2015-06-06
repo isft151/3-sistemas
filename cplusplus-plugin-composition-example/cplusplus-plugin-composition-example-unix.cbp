@@ -2,12 +2,12 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="cplusplus-component-example" />
+		<Option title="cplusplus-plugin-composition-example" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="cplusplus-component-example" prefix_auto="1" extension_auto="1" />
+				<Option output="cplusplus-plugin-composition-example" prefix_auto="1" extension_auto="1" />
 				<Option object_output="." />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -16,7 +16,7 @@
 				</Compiler>
 			</Target>
 			<Target title="Release">
-				<Option output="cplusplus-component-example" prefix_auto="1" extension_auto="1" />
+				<Option output="cplusplus-plugin-composition-example" prefix_auto="1" extension_auto="1" />
 				<Option object_output="." />
 				<Option type="1" />
 				<Option compiler="gcc" />
@@ -32,15 +32,18 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
-		<Unit filename="include/ComponentFactory.h" />
-		<Unit filename="include/IComponent.h" />
+		<Linker>
+			<Add option="-ldl" />
+		</Linker>
 		<Unit filename="include/IGreeter.h" />
 		<Unit filename="include/ILibraryLoader.h" />
 		<Unit filename="include/IMessenger.h" />
+		<Unit filename="include/IPlugin.h" />
 		<Unit filename="include/LibraryLoader.h" />
+		<Unit filename="include/PluginFactory.h" />
 		<Unit filename="main.cpp" />
-		<Unit filename="src/ComponentFactory.cpp" />
 		<Unit filename="src/LibraryLoader.cpp" />
+		<Unit filename="src/PluginFactory.cpp" />
 		<Extensions>
 			<code_completion />
 			<debugger />

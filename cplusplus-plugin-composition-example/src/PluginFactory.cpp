@@ -21,21 +21,21 @@
  *  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 **/
 
-#include "../include/ComponentFactory.h"
+#include "../include/PluginFactory.h"
 
-ComponentFactory::ComponentFactory()
+PluginFactory::PluginFactory()
 {
     //ctor
 }
 
-ComponentFactory::~ComponentFactory()
+PluginFactory::~PluginFactory()
 {
     //dtor
 }
 
-IComponent* ComponentFactory::createFrom(string path)
+IPlugin* PluginFactory::createFrom(string path)
 {
-    IComponent* component = NULL;
+    IPlugin* plugin = NULL;
     //THE LOADER:
     ILibraryLoader* loader = LibraryLoader::getInstance();
 
@@ -43,23 +43,23 @@ IComponent* ComponentFactory::createFrom(string path)
     void* load = loader->loadLibrary(path);
     if(load)
     {
-        typedef IComponent* ( *ComponentFactory ) ();
-        ComponentFactory factory = ( ComponentFactory ) loader->getExternalFunction( "create" );
+        typedef IPlugin* ( *PluginFactory ) ();
+        PluginFactory factory = ( PluginFactory ) loader->getExternalFunction( "create" );
         if ( factory )
         {
-            if (component = factory()){}
+            if (plugin = factory()){}
             else
             {
                 loader->freeLibrary();
-                cout << "Error:  Failed creating a component from "
-                        << path << ", null component." << endl;
+                cout << "Error:  Failed creating a plugin from "
+                        << path << ", null plugin." << endl;
                 exit(-1);
             }
         }
         else
         {
             loader->freeLibrary();
-            cout << "Error:  Failed creating a component from "
+            cout << "Error:  Failed creating a plugin from "
                     << path << ", there is no external function \"create(void)\"." << endl;
             exit(-1);
         }
@@ -69,7 +69,7 @@ IComponent* ComponentFactory::createFrom(string path)
         cout << "Error: Failed to load the library: " << path << endl;
         exit(-1);
     }
-    return component;
+    return plugin;
 }
 
 

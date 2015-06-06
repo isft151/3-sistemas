@@ -21,92 +21,59 @@
  *  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 **/
 
-#include "../../include/IComponent.h"
-#include "../../include/IGreeter.h"
+#include "../../include/IPlugin.h"
+#include "../../include/IMessenger.h"
 #include <iostream>
-#include <string>
 
 using namespace std;
 
-class ConsoleGreeter;
-static ConsoleGreeter* instance = NULL;
-
-class ConsoleGreeter : public IGreeter, public IComponent
+class ConsoleMessenger : public IMessenger, public IPlugin
 {
     public:
-        ConsoleGreeter();
-        virtual ~ConsoleGreeter();
-        void greet(string message);
+        ConsoleMessenger();
+        virtual ~ConsoleMessenger();
+        void say(string message);
 
         bool implements(string interfaceName);
         void* getInstance();
         void release();
 
     private:
-        int m_refCount;
+        int m_referenceCounter;
         bool m_implemented;
 };
 
-ConsoleGreeter::ConsoleGreeter()
+ConsoleMessenger::ConsoleMessenger() : m_referenceCounter(0) {}
+
+ConsoleMessenger::~ConsoleMessenger(){}
+
+void ConsoleMessenger::say(string message)
 {
-    m_refCount = 0;
+    cout << "I am the Messenger 01 and the message is: " << message << endl;
 }
 
-ConsoleGreeter::~ConsoleGreeter()
+bool ConsoleMessenger::implements(string interfaceName)
 {
-
-}
-
-void ConsoleGreeter::greet(string message)
-{
-    cout << "I am the console greeter and the message is: " << message << endl;
-}
-
-bool ConsoleGreeter::implements(string interfaceName)
-{
-    return (interfaceName == "IComponent" || interfaceName == "IGreeter") ?
+    return (interfaceName == "IPlugin" || interfaceName == "IMessenger") ?
         m_implemented = true
             : m_implemented = false;
 }
 
-void* ConsoleGreeter::getInstance()
+void* ConsoleMessenger::getInstance()
 {
-    if(m_implemented)
-    {
-        m_refCount++;
-        return this;
-    }
-
+    if(m_implemented) {  m_referenceCounter++;  return this; }
     return NULL;
 }
 
-void ConsoleGreeter::release()
+void ConsoleMessenger::release()
 {
-    m_refCount--;
-    if(m_refCount == 0)
-        delete instance;
+    m_referenceCounter--;
+    if(m_referenceCounter <= 0) delete this;
 }
 
-extern "C" IComponent* hi();
+extern "C" IPlugin* create();
 
-IComponent* hi()
+IPlugin* create()
 {
-    if(instance == NULL)
-        instance = new ConsoleGreeter();
-    return (IComponent*)instance;
+    return (IPlugin*) new ConsoleMessenger;
 }
-
-//extern "C" IGreeter* create();
-//IGreeter* create()
-//{
-//    if(instance == NULL)
-//        instance = new ConsoleGreeter();
-//    return (IGreeter*)instance;
-//}
-
-
-//extern "C" IComponent* create();
-//IComponent* create()
-//{
-//    return NULL;
-//}

@@ -21,22 +21,18 @@
  *  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 **/
 
-#ifndef COMPONENTFACTORY_H
-#define COMPONENTFACTORY_H
+#ifndef IPLUGIN_H
+#define IPLUGIN_H
 
-#include <iostream>
-#include <stdlib.h>
 #include <string>
-#include "ILibraryLoader.h"
-#include "LibraryLoader.h"
-#include "IComponent.h"
 
-class ComponentFactory
+
+class IPlugin
 {
     public:
-        ComponentFactory();
-        virtual ~ComponentFactory();
-        static IComponent* createFrom(string path);
+        virtual bool implements(std::string interfaceName) = 0;
+        virtual void* getInstance() = 0;
+        virtual void release() = 0;
 };
 
-#endif // COMPONENTFACTORY_H
+#endif // IPLUGIN_H

@@ -21,75 +21,22 @@
  *  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 **/
 
-#include "../../include/IComponent.h"
-#include "../../include/IGreeter.h"
+#ifndef PLUGINFACTORY_H
+#define PLUGINFACTORY_H
+
 #include <iostream>
+#include <stdlib.h>
 #include <string>
+#include "ILibraryLoader.h"
+#include "LibraryLoader.h"
+#include "IPlugin.h"
 
-using namespace std;
-
-class ConsoleGreeter;
-static ConsoleGreeter* instance = NULL;
-
-class ConsoleGreeter : public IGreeter, public IComponent
+class PluginFactory
 {
     public:
-        ConsoleGreeter();
-        virtual ~ConsoleGreeter();
-        void greet(string message);
-
-        bool implements(string interfaceName);
-        void* getInstance();
-        void release();
-
-    private:
-        int m_refCount;
-        bool m_implemented;
+        PluginFactory();
+        virtual ~PluginFactory();
+        static IPlugin* createFrom(string path);
 };
 
-ConsoleGreeter::ConsoleGreeter()
-{
-    m_refCount = 0;
-}
-
-ConsoleGreeter::~ConsoleGreeter()
-{
-
-}
-
-void ConsoleGreeter::greet(string message)
-{
-    cout << "I am the console greeter and the message is: " << message << endl;
-}
-
-bool ConsoleGreeter::implements(string interfaceName)
-{
-    return (interfaceName == "IComponent" || interfaceName == "IGreeter") ?
-        m_implemented = true
-            : m_implemented = false;
-}
-
-void* ConsoleGreeter::getInstance()
-{
-    if(m_implemented)
-    {
-        m_refCount++;
-        return this;
-    }
-
-    return NULL;
-}
-
-void ConsoleGreeter::release()
-{
-    m_refCount--;
-    if(m_refCount == 0)
-        delete instance;
-}
-
-extern "C" IComponent* create();
-
-IComponent* create()
-{
-    return NULL;
-}
+#endif // PLUGINFACTORY_H

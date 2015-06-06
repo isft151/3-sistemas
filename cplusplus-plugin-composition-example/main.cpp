@@ -21,17 +21,30 @@
  *  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 **/
 
-#ifndef IGREETER_H
-#define IGREETER_H
-
+#include <iostream>
+#include <stdlib.h>
 #include <string>
+#include "include/PluginFactory.h"
+#include "include/IPlugin.h"
+#include "include/IGreeter.h"
+
 using namespace std;
 
-class IGreeter
+int main()
 {
-    public:
-        virtual ~IGreeter() {}
-        virtual void greet(string message) = 0;
-};
-
-#endif // IGREETER_H
+    IPlugin* greeter_plugin = PluginFactory::createFrom("./lib/libgreeter");
+    if(greeter_plugin->implements("IGreeter"))
+    {
+        IPlugin* messenger_plugin = PluginFactory::createFrom("./lib/libmessenger");
+        IGreeter* greeter = (IGreeter*) greeter_plugin->getInstance();
+        greeter->setMessenger(messenger_plugin);
+        greeter->greet("Hello World!");
+    }
+    else
+    {
+        cout << "Error: The plugin doesn't implement the IGreeter interface!" << endl;
+        exit(-1);
+    }
+    greeter_plugin->release();
+    return 0;
+}

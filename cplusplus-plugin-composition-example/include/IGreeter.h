@@ -21,18 +21,20 @@
  *  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 **/
 
-#ifndef ICOMPONENT_H
-#define ICOMPONENT_H
+#ifndef IGREETER_H
+#define IGREETER_H
 
 #include <string>
+#include "IPlugin.h"
 
+using namespace std;
 
-class IComponent
+class IGreeter
 {
     public:
-        virtual bool implements(std::string interfaceName) = 0;
-        virtual void* getInstance() = 0;
-        virtual void release() = 0;
+        virtual ~IGreeter() {}
+        virtual void setMessenger(IPlugin* messenger) = 0;
+        virtual void greet(string message) = 0;
 };
 
-#endif // ICOMPONENT_H
+#endif // IGREETER_H
