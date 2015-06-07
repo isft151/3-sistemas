@@ -22,17 +22,22 @@
 **/
 
 #include "../../include/IPlugin.h"
+#include "../../include/IGreeter.h"
 #include "../../include/IMessenger.h"
+
 #include <iostream>
+#include <stdlib.h>
+#include <string>
 
 using namespace std;
 
-class ConsoleMessenger : public IMessenger, public IPlugin
+class ConsoleGreeter : public IGreeter, public IPlugin
 {
     public:
-        ConsoleMessenger();
-        virtual ~ConsoleMessenger();
-        void say(string message);
+        ConsoleGreeter();
+        virtual ~ConsoleGreeter();
+        void greet(string message);
+        void setMessenger(IPlugin* messenger_plugin);
 
         bool implements(string interfaceName);
         void* getInstance();
@@ -41,31 +46,52 @@ class ConsoleMessenger : public IMessenger, public IPlugin
     private:
         int m_referenceCounter;
         bool m_implemented;
+        IPlugin* m_messenger_plugin;
+        IMessenger* m_messenger;
 };
 
-ConsoleMessenger::ConsoleMessenger() : m_referenceCounter(0) {}
+ConsoleGreeter::ConsoleGreeter() : m_referenceCounter(0) {}
 
-ConsoleMessenger::~ConsoleMessenger(){}
-
-void ConsoleMessenger::say(string message)
+ConsoleGreeter::~ConsoleGreeter()
 {
-    cout << "I am the Messenger 02 and the message is: " << message << endl;
+    m_messenger_plugin->release();
 }
 
-bool ConsoleMessenger::implements(string interfaceName)
+void ConsoleGreeter::setMessenger(IPlugin* messenger_plugin)
 {
-    return (interfaceName == "IPlugin" || interfaceName == "IMessenger") ?
+    m_messenger_plugin = messenger_plugin;
+
+    if(m_messenger_plugin->implements("IMessenger"))
+    {
+        IMessenger* messenger = (IMessenger*) m_messenger_plugin->getInstance();
+        m_messenger = messenger;
+    }
+    else
+    {
+        cout << "Error: The plugin doesn't implement the IMessenger interface!" << endl;
+        exit(-1);
+    }
+}
+
+void ConsoleGreeter::greet(string message)
+{
+    m_messenger->say(message);
+}
+
+bool ConsoleGreeter::implements(string interfaceName)
+{
+    return (interfaceName == "IPlugin" || interfaceName == "IGreeter") ?
         m_implemented = true
             : m_implemented = false;
 }
 
-void* ConsoleMessenger::getInstance()
+void* ConsoleGreeter::getInstance()
 {
-    if(m_implemented) {  m_referenceCounter++;  return this; }
+    if(m_implemented) { m_referenceCounter++; return this;}
     return NULL;
 }
 
-void ConsoleMessenger::release()
+void ConsoleGreeter::release()
 {
     m_referenceCounter--;
     if(m_referenceCounter <= 0) delete this;
@@ -75,5 +101,5 @@ extern "C" IPlugin* create();
 
 IPlugin* create()
 {
-    return (IPlugin*) new ConsoleMessenger;
+    return (IPlugin*) new ConsoleGreeter;
 }
