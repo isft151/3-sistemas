@@ -7,7 +7,7 @@ Estructura de directorios:
 	- nombre-del-proyecto (En minúscula, spinal-case)
 		- Archivos de proyecto (con README.md explicando en detalle el mismo)
 
-*Ejemplo:*
+**Ejemplo:**
 ````sh
 cplusplus/nombre-de-proyecto/*.cpp
 ````
