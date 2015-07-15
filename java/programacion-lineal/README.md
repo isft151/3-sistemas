@@ -8,4 +8,4 @@ El archivo [java runnable.jar](https://github.com/mnajle/Programacion-Lineal/blo
 
 Hay un ejemplo pre cargado que iba a borrar para dejar la pantalla en blancho, pero me olvidé de hacerlo y ya subí todo al repo. Así que ya fue. Se puede toquetear para ver que funcione bien. Yo lo prové con algunos ejercicios que encontré por la web y anduvo perfecto.
 
-Me falta hacer la optimización para minimizar, sólo hice la de maximizar.
+¡Ahora también con minimizaciones!
