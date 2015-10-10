@@ -121,7 +121,7 @@ int main()
     cout << "<body>\n";
 
     cout << "<form action='helloworld.exe' method='POST'>";
-    cout << "<label>Introduzcá su nombré:</label>\n";
+    cout << "<label>Introduzca su nombre:</label>\n";
     cout << "<input type='text' name='txt1' id='txt1'>\n";
     cout << "<input type='submit' name='sbmt1' value='enviar'>\n";
     cout << "</form>\n";
