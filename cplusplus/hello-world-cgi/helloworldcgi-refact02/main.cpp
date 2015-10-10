@@ -29,6 +29,29 @@
 
 using namespace std;
 
+//DECODE URI FORMAT
+string urlDecode(string &SRC)
+{
+    string ret;
+    char ch;
+    int i, ii;
+    for (i=0; i<SRC.length(); i++)
+    {
+        if (int(SRC[i])==37)
+        {
+            sscanf(SRC.substr(i+1,2).c_str(), "%x", &ii);
+            ch=static_cast<char>(ii);
+            ret+=ch;
+            i=i+2;
+        } else
+        {
+            ret+=SRC[i];
+        }
+    }
+    return (ret);
+}
+
+//DIVIDE A STRING BY A CHAR DELIMITER
 vector<string> explode(string const &input, char delimiter)
 {
     vector<string> result;
@@ -42,13 +65,14 @@ vector<string> explode(string const &input, char delimiter)
     return result;
 }
 
+//GET HTTP REQUEST
 string getRequestString()
 {
     string requestString = "";
 
-    if(getenv("REQUEST_METHOD") == NULL) 
-    { 
-        cout << "The request method is null" << endl; 
+    if(getenv("REQUEST_METHOD") == NULL)
+    {
+        cout << "The request method is null" << endl;
         exit(-1);
     }
     else
@@ -63,6 +87,7 @@ string getRequestString()
     return requestString;
 }
 
+//GENERATE REQUEST MAP
 map<string, string> getRequestMap()
 {
     string requestString = getRequestString();
@@ -83,24 +108,27 @@ map<string, string> getRequestMap()
     return requestMap;
 }
 
+//MAIN FUNCTION
 int main()
 {
-    cout << "Content-type:text/html\r\n\r\n";
+    cout << "Content-type:text/html; charset=UTF8\r\n\r\n";
+    cout << "<!DOCTYPE html>\n";
     cout << "<html>\n";
     cout << "<head>\n";
-    cout << "<title>Hello World - Second CGI Program</title>\n";
+    cout << "<title>Hello World - Third CGI Program</title>\n";
+    cout << "<meta charset='utf-8'>\n";
     cout << "</head>\n";
     cout << "<body>\n";
 
     cout << "<form action='helloworld.exe' method='POST'>";
-    cout << "<label>Introduzca su nombre:</label>\n";
+    cout << "<label>Introduzcá su nombré:</label>\n";
     cout << "<input type='text' name='txt1' id='txt1'>\n";
     cout << "<input type='submit' name='sbmt1' value='enviar'>\n";
     cout << "</form>\n";
 
     map<string, string> requestMap = getRequestMap();
 
-    cout << "<h2>Hello! " << requestMap["txt1"] << " This is my third CGI program</h2>\n";
+    cout << "<h2>Hello! " << urlDecode(requestMap["txt1"]) << " This is my third CGI program</h2>\n";
 
     cout << "</body>\n";
     cout << "</html>\n";
