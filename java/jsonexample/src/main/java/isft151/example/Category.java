@@ -1,8 +1,23 @@
-package isft151.json.example;
+package isft151.example;
+
+import java.lang.reflect.Type;
+
+import com.google.gson.annotations.SerializedName;
+
+import example.gson.ListParameterizedType;
 
 public class Category {
+    
+    @SerializedName("IdCategoria")
     private int id;
+    
+    @SerializedName("DescripcionCategoria")
     private String name;
+    
+    public static Type getTypeForList(){
+        return new ListParameterizedType(Category.class);
+    }
+    
     public int getId() {
         return id;
     }

@@ -1,4 +1,7 @@
-package isft151.json.example;
+package example.json;
+
+import isft151.example.Category;
+import isft151.example.JsonProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +21,7 @@ public class Main {
 
         for (int i = 0; i < array.length(); i++) {
             JSONObject o = array.getJSONObject(i);            
-            Category cat = new Category();
+            isft151.example.Category cat = new Category();
             
             cat.setId(o.getInt("IdCategoria"));
             cat.setName(o.getString("DescripcionCategoria"));            
@@ -27,8 +30,8 @@ public class Main {
         
         for (Category c : categories){
             System.out.println(c);
-        }    
-    
+        }
     }
+    
 
 }

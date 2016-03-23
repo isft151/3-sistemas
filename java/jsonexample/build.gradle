@@ -9,4 +9,5 @@ repositories {
 
 dependencies {
    compile  'org.json:json:20140107'
+   compile 'com.google.code.gson:gson:2.6.2'
 } 

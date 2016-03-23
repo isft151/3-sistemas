@@ -1,4 +1,4 @@
-package isft151.json.example;
+package isft151.example;
 
 import java.io.BufferedReader;
 import java.io.DataInputStream;
