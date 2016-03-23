@@ -1,0 +1,13 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+version = '1.0-SNAPSHOT' 
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+   compile  'org.json:json:20140107'
+   compile 'com.google.code.gson:gson:2.6.2'
+} 
