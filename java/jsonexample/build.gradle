@@ -1,0 +1,12 @@
+apply plugin: 'java'
+apply plugin: 'eclipse'
+
+version = '1.0-SNAPSHOT' 
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+   compile  'org.json:json:20140107'
+} 

@@ -1,0 +1,23 @@
+{  
+    "Token":" ",
+    "Estado":"OK",
+    "Mensaje":"Operacion completada correctamente",
+    "Categorias":[  
+        {  
+            "IdCategoria":3,
+            "DescripcionCategoria":"Apart hotel"
+        },
+        {  
+            "IdCategoria":252,
+            "DescripcionCategoria":"Bed & Breakfast"
+        },
+        {  
+            "IdCategoria":230,
+            "DescripcionCategoria":"Cabañas"
+        },
+        {  
+            "IdCategoria":4,
+            "DescripcionCategoria":"Campamento"
+        }
+    ]
+}
